@@ -1,8 +1,12 @@
+// Imports //
 const express = require("express");
 const expressConfig = require("./config/expressConfig.js");
+
 const handlebars = require("express-handlebars");
 const handlebarsConfig = require("./config/handlebarsConfig.js");
+
 const routes = require("./router.js");
+
 const dbConnect = require("./config/dbConfig.js");
 
 // ?Local variables
