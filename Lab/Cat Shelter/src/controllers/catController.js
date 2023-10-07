@@ -24,4 +24,24 @@ router.post("/breed", async (req, res) => {
   res.redirect("/");
 });
 
+router.get("/edit", async (req, res) => {
+  const { id } = req.query;
+  const { name, description, imageUrl, breed } = await catService.getById(id);
+  const catBreed = await catService.getAllBreeds();
+  const catList = catBreed.filter((cat) => cat.breed !== breed);
+  res.render("cat/editCat", {
+    name,
+    description,
+    imageUrl,
+    breed,
+    breeds: catList,
+  });
+});
+
+router.put("/edit", async (req, res) => {
+  const { name, description, imageUrl, breed } = req.body;
+  await catService.add({ name, imageUrl, description, breed });
+  res.redirect("/");
+});
+
 module.exports = router;

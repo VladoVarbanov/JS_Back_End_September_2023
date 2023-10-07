@@ -18,3 +18,7 @@ exports.addBreed = async (breedData) => {
 exports.getAllBreeds = async () => {
   return await Breed.find().lean();
 };
+
+exports.getById = async (id) => {
+  return await Cat.findById(id).lean();
+};
