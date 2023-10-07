@@ -38,3 +38,18 @@ exports.put = async (id, catData) => {
       console.error("Error updating document:", error);
     });
 };
+
+exports.delete = async (id) => {
+  return await Cat.deleteOne(id)
+    .then((result) => {
+      console.log(result);
+      if (result.deletedCount === 1) {
+        console.log("Document deleted successfully");
+      } else {
+        console.log("Document not found or no changes made");
+      }
+    })
+    .catch((error) => {
+      console.error("Error deleting document:", error);
+    });
+};

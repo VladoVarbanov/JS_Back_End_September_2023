@@ -46,4 +46,17 @@ router.post("/edit", async (req, res) => {
   res.redirect("/");
 });
 
+router.get("/shelter", async (req, res) => {
+  const id = req.query.id;
+  const { name, description, imageUrl, breed } = await catService.getById(id);
+  res.render("cat/catShelter", { name, description, imageUrl, breed, id });
+});
+
+router.post("/shelter", async (req, res) => {
+  const { id, name, description, imageUrl, breed } = req.body;
+  const filter = { _id: id };
+  await catService.delete(filter);
+  res.redirect("/");
+});
+
 module.exports = router;
