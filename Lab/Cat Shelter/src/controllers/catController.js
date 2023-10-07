@@ -9,8 +9,15 @@ router.post("/add", async (req, res) => {
   const { name, description, imageUrl, breed } = req.body;
 
   await catService.add({ name, imageUrl, description, breed });
-  console.log(req.body);
   res.redirect("/");
+});
+
+router.get("/breed", (req, res) => {
+  res.render("cat/addBreed");
+});
+
+router.post("/breed", (req, res) => {
+  const { breed } = req.body;
 });
 
 module.exports = router;
