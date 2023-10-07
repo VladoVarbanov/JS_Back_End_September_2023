@@ -16,8 +16,11 @@ router.get("/breed", (req, res) => {
   res.render("cat/addBreed");
 });
 
-router.post("/breed", (req, res) => {
+router.post("/breed", async (req, res) => {
   const { breed } = req.body;
+
+  await catService.addBreed({ breed });
+  res.redirect("/");
 });
 
 module.exports = router;
