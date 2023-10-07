@@ -35,12 +35,14 @@ router.get("/edit", async (req, res) => {
     imageUrl,
     breed,
     breeds: catList,
+    id,
   });
 });
 
-router.put("/edit", async (req, res) => {
-  const { name, description, imageUrl, breed } = req.body;
-  await catService.add({ name, imageUrl, description, breed });
+router.post("/edit", async (req, res) => {
+  const { id, name, description, imageUrl, breed } = req.body;
+  const filter = { _id: id };
+  await catService.put(filter, { name, description, imageUrl, breed });
   res.redirect("/");
 });
 

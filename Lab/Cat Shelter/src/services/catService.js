@@ -22,3 +22,19 @@ exports.getAllBreeds = async () => {
 exports.getById = async (id) => {
   return await Cat.findById(id).lean();
 };
+
+exports.put = async (id, catData) => {
+  return await Cat.updateOne(id, catData)
+    .then((result) => {
+      if (result.matchedCount === 1 && result.modifiedCount === 1) {
+        console.log("Document updated successfully");
+      } else if (result.matchedCount === 0) {
+        console.log("Document not found");
+      } else {
+        console.log("Document found, but no changes made");
+      }
+    })
+    .catch((error) => {
+      console.error("Error updating document:", error);
+    });
+};

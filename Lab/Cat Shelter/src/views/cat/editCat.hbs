@@ -1,19 +1,20 @@
 <main>
-  <form action="/cats/edit" method="PUT" class="cat-form">
+  <form action="/cats/edit" method="post" class="cat-form">
     <h2>Edit Cat</h2>
     <label for="name">Name</label>
-    <input type="text" id="name" value="{{name}}" />
+    <input name="name" type="text" id="name" value="{{name}}" />
     <label for="description">Description</label>
-    <textarea id="description">{{description}}</textarea>
+    <textarea name="description" id="description">{{description}}</textarea>
     <label for="image">ImageUrl</label>
     <input name="imageUrl" type="text" id="image" value="{{imageUrl}}" />
     <label for="group">Breed</label>
-    <select id="group">
+    <select name="breed" id="group">
       <option value="{{breed}}">{{breed}}</option>
       {{#each breeds}}
         <option value="{{this.breed}}">{{this.breed}}</option>
       {{/each}}
     </select>
+    <input type="hidden" name="id" value="{{id}}" />
     <button type="submit">Edit Cat</button>
   </form>
 </main>
