@@ -14,3 +14,7 @@ exports.addBreed = async (breedData) => {
   const breed = await Breed.create(breedData);
   return breed;
 };
+
+exports.getAllBreeds = async () => {
+  return await Breed.find().lean();
+};

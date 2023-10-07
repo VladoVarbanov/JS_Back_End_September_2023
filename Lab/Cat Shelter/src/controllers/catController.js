@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const catService = require("../services/catService.js");
 
-router.get("/add", (req, res) => {
-  res.render("cat/addCat");
+router.get("/add", async (req, res) => {
+  const catBreed = await catService.getAllBreeds();
+  res.render("cat/addCat", { breeds: catBreed });
 });
 
 router.post("/add", async (req, res) => {
