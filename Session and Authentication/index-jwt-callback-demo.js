@@ -1,6 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const jwt = require("./utils/jwt-promisify.js");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const PORT = 5050;
 const app = express();
@@ -47,17 +47,17 @@ app.post("/login", async (req, res) => {
   const isValid = await bcrypt.compare(password, preservedHash);
 
   if (isValid) {
+    // res.send("Successfully Authenticated!");
     const payload = { username };
 
-    try {
-      const token = await jwt.sign(payload, SECRET, { expiresIn: "3d" });
+    jwt.sign(payload, SECRET, { expiresIn: "3d" }, (err, token) => {
+      if (err) {
+        return res.redirect("/404");
+      }
       // Set jwt as cookie
       res.cookie("token", token);
       res.redirect("/profile");
-    } catch (error) {
-      console.log({ error });
-      res.redirect("/404");
-    }
+    });
   } else {
     res.status(401).send("Unauthorized! :(");
   }
@@ -87,14 +87,16 @@ app.post("/register", async (req, res) => {
 
 app.get("/profile", async (req, res) => {
   const token = req.cookies["token"];
+  console.log({ token });
 
   if (token) {
-    try {
-      const payload = await jwt.verify(token, SECRET);
-      res.send(`Profile: ${payload.username}`);
-    } catch (error) {
-      res.status(401).send("Unauthorized!");
-    }
+    jwt.verify(token, SECRET, (err, payload) => {
+      if (err) {
+        return res.status(401).send("Unauthorized!");
+      }
+
+      return res.send(`Profile: ${payload.username}`);
+    });
   } else {
     return res.redirect("/");
   }

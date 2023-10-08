@@ -1,6 +1,5 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const jwt = require("./utils/jwt-promisify.js");
 const bcrypt = require("bcrypt");
 const PORT = 5050;
 const app = express();
@@ -9,23 +8,22 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
 const users = {};
-const SECRET = "OurBiggestSecret";
 
 app.get("/", (req, res) => {
-  const payload = { id: 123, username: "Pesho", age: 23 };
-  const secret = "OurBiggestSecret";
-  const options = { expiresIn: "3d" };
+  // let id;
+  // const userId = req.cookies["userId"];
 
-  const token = jwt.sign(payload, secret, options);
+  // if (userId) {
+  //   id = userId;
+  //   console.log({ session: req.session });
+  // } else {
+  //   id = uuid();
 
-  res.send(token);
-});
+  //   req.session.message = "Test 123";
+  //   res.cookie("userId", id);
+  // }
 
-app.get("/verification/:token", (req, res) => {
-  const { token } = req.params;
-  const result = jwt.verify(token, "OurBiggestSecret");
-  console.log({ result });
-  res.send("OK!");
+  res.send(`OK! ID: ${id}`);
 });
 
 app.get("/login", (req, res) => {
@@ -47,17 +45,7 @@ app.post("/login", async (req, res) => {
   const isValid = await bcrypt.compare(password, preservedHash);
 
   if (isValid) {
-    const payload = { username };
-
-    try {
-      const token = await jwt.sign(payload, SECRET, { expiresIn: "3d" });
-      // Set jwt as cookie
-      res.cookie("token", token);
-      res.redirect("/profile");
-    } catch (error) {
-      console.log({ error });
-      res.redirect("/404");
-    }
+    res.send("Successfully Authenticated!");
   } else {
     res.status(401).send("Unauthorized! :(");
   }
@@ -83,21 +71,6 @@ app.post("/register", async (req, res) => {
   users[username] = { password: hash };
 
   res.redirect("/login");
-});
-
-app.get("/profile", async (req, res) => {
-  const token = req.cookies["token"];
-
-  if (token) {
-    try {
-      const payload = await jwt.verify(token, SECRET);
-      res.send(`Profile: ${payload.username}`);
-    } catch (error) {
-      res.status(401).send("Unauthorized!");
-    }
-  } else {
-    return res.redirect("/");
-  }
 });
 
 app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
