@@ -1,5 +1,4 @@
 const Cube = require("./../models/Cube.js");
-const cubes = [];
 
 exports.create = async (cubeData) => {
   const cube = await Cube.create(cubeData);
