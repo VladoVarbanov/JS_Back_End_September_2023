@@ -67,3 +67,39 @@
     - show in the main layout.
     - pass error in render in login and register pages.
 21. Automatically login
+
+###############################################################################
+
+## TODO'S
+
+1. Map pages to navigation in both LoggedIn and LoggedOut state.
+2. Add Creature model to mongoose.
+3. Implement - All Posts.
+   - show each creature with image, name, species, description.
+   - add details but to every creature.
+   - If no creatures "There are no posts yet...".
+4. Add details page (for Creatures).
+   - If the user is the owner of the post should have "Edit" and "Delete" button.
+   - If the user hasn't logged in => no buttons.
+   - If the user is not the owner => vote button.
+5. Vote button.
+   - when clicked -> "Vote".
+   - redirect to the detail page for the current creature.
+   - show the email of the people voted.
+   - If user already has voted -> "Thanks for Voting" and add the email of the vote people.
+6. Add Creature.
+   - on success redirect to all posts page.
+7. Delete Creature.
+   - on success redirect to all posts page.
+8. Edit Creature.
+   - on success redirect to current creature page.
+9. Routes Guards - check.
+10. Validations.
+
+- Login.
+- Register.
+- Animals.
+
+11. BONUS -> Profile
+    -> show my posts.
+    -> if there are no posts -> msg.
