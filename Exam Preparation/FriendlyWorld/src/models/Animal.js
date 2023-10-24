@@ -13,10 +13,10 @@ const animalSchema = new mongoose.Schema({
     minLength: 3,
   },
   years: {
-    type: Number,
+    type: String,
     required: true,
-    // min: 1,
-    // max: 100,
+    min: 1,
+    max: 100,
   },
   need: {
     type: String,
@@ -32,8 +32,8 @@ const animalSchema = new mongoose.Schema({
   description: {
     type: String,
     required: true,
-    minLength: 5,
-    maxLength: 50,
+    // minLength: 5,
+    // maxLength: 50,
   },
   location: {
     type: String,
@@ -41,13 +41,12 @@ const animalSchema = new mongoose.Schema({
     minLength: 5,
     maxLength: 15,
   },
-  // name: { type: String, required: true, minLength: 2 },
-  // kind: { type: String, required: true, minLength: 3 },
-  // years: { type: String, required: true, min: 1, max: 100 },
-  // need: { type: String, required: true },
-  // image: { type: String, required: true },
-  // description: { type: String, required: true },
-  // location: { type: String, required: true },
+  donations: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   owner: {
     type: mongoose.Types.ObjectId,
     ref: "User",

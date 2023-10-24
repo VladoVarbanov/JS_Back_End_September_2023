@@ -44,18 +44,22 @@ router.get("/profile", isAuth, async (req, res) => {
 
 router.get("/:animalId/details", async (req, res) => {
   const { animalId } = req.params;
+  console.log(animalId);
   const animal = await animalService.getSingleAnimal(animalId).lean();
   // const isUsersAnimal = animal
+
   const { user } = req;
   const { owner } = animal;
   const isOwner = user?._id === owner.toString();
-  const hasVoted = animal.votes?.some((v) => v?._id.toString() === user?._id);
-  const joinedEmailsOfOwners = animal.votes.map((v) => v.email).join(", ");
+  const hasDonate = animal.donations?.some(
+    (v) => v?._id.toString() === user?._id
+  );
+  const joinedEmailsOfOwners = animal.donations.map((v) => v.email).join(", ");
 
   res.render("post/details", {
     animal,
     isOwner,
-    hasVoted,
+    hasDonate,
     joinedEmailsOfOwners,
   });
 });
@@ -91,10 +95,10 @@ router.get("/:animalId/delete", async (req, res) => {
   res.redirect("/posts/all");
 });
 
-router.get("/:animalId/vote", async (req, res) => {
+router.get("/:animalId/donation", async (req, res) => {
   const { animalId } = req.params;
   const { _id } = req.user;
-  await animalService.addVotesToAnimal(animalId, _id);
+  await animalService.addDonationsToAnimal(animalId, _id);
   res.redirect(`/posts/${animalId}/details`);
 });
 
